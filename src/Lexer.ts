@@ -155,6 +155,20 @@ export class _Lexer {
         continue;
       }
 
+      if (token = this.tokenizer.blockFormula(src)) {
+        src = src.substring(token.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        // An indented code block cannot interrupt a paragraph.
+        if (lastToken && (lastToken.type === 'paragraph' || lastToken.type === 'text')) {
+          lastToken.raw += '\n' + token.raw;
+          lastToken.text += '\n' + token.text;
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else {
+          tokens.push(token);
+        }
+        continue;
+      }
+
       // fences
       if (token = this.tokenizer.fences(src)) {
         src = src.substring(token.raw.length);
@@ -262,6 +276,7 @@ export class _Lexer {
       if (token = this.tokenizer.text(src)) {
         src = src.substring(token.raw.length);
         lastToken = tokens[tokens.length - 1];
+        
         if (lastToken && lastToken.type === 'text') {
           lastToken.raw += '\n' + token.raw;
           lastToken.text += '\n' + token.text;
@@ -386,9 +401,28 @@ export class _Lexer {
         tokens.push(token);
         continue;
       }
-
+      
+      
       // code
       if (token = this.tokenizer.codespan(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+
+      if (token = this.tokenizer.inlineFormula(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+      
+      if (token = this.tokenizer.spoiler(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+
+      if (token = this.tokenizer.vocabulary(src)) {
         src = src.substring(token.raw.length);
         tokens.push(token);
         continue;
@@ -439,6 +473,7 @@ export class _Lexer {
       }
       if (token = this.tokenizer.inlineText(cutSrc)) {
         src = src.substring(token.raw.length);
+        console.log(token);
         if (token.raw.slice(-1) !== '_') { // Track prevChar before string of ____ started
           prevChar = token.raw.slice(-1);
         }

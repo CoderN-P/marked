@@ -101,6 +101,18 @@ export class _Tokenizer {
     }
   }
 
+  blockFormula(src: string): Tokens.BlockFormula | undefined {
+    const cap = this.rules.block.formula.exec(src);
+    if (cap) {
+      // const text = cap[0].replace(this.rules.other.codeRemoveIndent, '');
+      return {
+        type: 'blockFormula',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+
   fences(src: string): Tokens.Code | undefined {
     const cap = this.rules.block.fences.exec(src);
     if (cap) {
@@ -773,6 +785,46 @@ export class _Tokenizer {
     }
   }
 
+  inlineFormula(src: string): Tokens.InlineFormula | undefined {
+    const cap = this.rules.inline.formula.exec(src);
+
+    if (cap) {
+      let text = cap[1].replace(this.rules.other.newLineCharGlobal, ' ');
+      const hasNonSpaceChars = this.rules.other.nonSpaceChar.test(text);
+      const hasSpaceCharsOnBothEnds = this.rules.other.startingSpaceChar.test(text) && this.rules.other.endingSpaceChar.test(text);
+      if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
+        text = text.substring(1, text.length - 1);
+      }
+      return {
+        type: 'inlineFormula',
+        raw: cap[0],
+        text,
+      };
+    }
+  }
+  
+  vocabulary(src: string): Tokens.Vocabulary | undefined {
+    const cap = this.rules.inline.vocabulary.exec(src);
+    if (cap) {
+      return {
+        type: 'vocabulary',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+  
+  spoiler(src: string): Tokens.Spoiler | undefined {
+    const cap = this.rules.inline.spoiler.exec(src);
+    if (cap) {
+      return {
+        type: 'spoiler',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+
   br(src: string): Tokens.Br | undefined {
     const cap = this.rules.inline.br.exec(src);
     if (cap) {
@@ -861,7 +913,7 @@ export class _Tokenizer {
   }
 
   inlineText(src: string): Tokens.Text | undefined {
-    const cap = this.rules.inline.text.exec(src);
+    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[$`*_]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
     if (cap) {
       const escaped = this.lexer.state.inRawBlock;
       return {

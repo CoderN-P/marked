@@ -142,7 +142,7 @@ export class _Parser {
       // Run any renderer extensions
       if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[anyToken.type]) {
         const ret = this.options.extensions.renderers[anyToken.type].call({ parser: this }, anyToken);
-        if (ret !== false || !['escape', 'html', 'link', 'image', 'strong', 'em', 'codespan', 'br', 'del', 'text'].includes(anyToken.type)) {
+        if (ret !== false || !['escape', 'html', 'link', 'image', 'strong', 'em', 'codespan', 'inlineFormula', 'br', 'del', 'text'].includes(anyToken.type)) {
           out += ret || '';
           continue;
         }

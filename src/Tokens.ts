@@ -21,6 +21,7 @@ export type MarkedToken = (
   | Tokens.Em
   | Tokens.Codespan
   | Tokens.Br
+  | Tokens.InlineFormula
   | Tokens.Del);
 
 export type Token = (
@@ -40,6 +41,12 @@ export namespace Tokens {
     lang?: string | undefined;
     text: string;
     escaped?: boolean;
+  }
+  
+  export interface BlockFormula {
+    type: 'blockFormula';
+    raw: string;
+    text: string;
   }
 
   export interface Heading {
@@ -127,6 +134,12 @@ export namespace Tokens {
     tokens?: Token[];
     escaped?: boolean;
   }
+  
+  export interface InlineFormula {
+    type: 'inlineFormula';
+    raw: string;
+    text: string;
+  }
 
   export interface Def {
     type: 'def';
@@ -149,6 +162,30 @@ export namespace Tokens {
     inRawBlock: boolean;
     text: string;
     block: boolean;
+  }
+  
+  export interface Vocabulary {
+    type: 'vocabulary';
+    raw: string;
+    text: string;
+  }
+  
+  export interface Spoiler {
+    type: 'spoiler';
+    raw: string;
+    text: string;
+  }
+  
+  export interface Embed {
+    type: 'embed';
+    raw: string;
+    text: string;
+  }
+  
+  export interface Question {
+    type: 'question';
+    raw: string;
+    text: string;
   }
 
   export interface Link {

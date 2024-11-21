@@ -144,6 +144,8 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
   .replace('paragraph', paragraph)
   .getRegex();
 
+const blockFormula = /^\$\$([^$]+)\$\$/;
+
 /**
  * Normal Block Grammar
  */
@@ -151,6 +153,7 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
 const blockNormal = {
   blockquote,
   code: blockCode,
+  formula: blockFormula,
   def,
   fences,
   heading,
@@ -212,7 +215,7 @@ const blockPedantic: Record<BlockKeys, RegExp> = {
     + '|<tag(?:"[^"]*"|\'[^\']*\'|\\s[^\'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))')
     .replace('comment', _comment)
     .replace(/tag/g, '(?!(?:'
-      + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub'
+      + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|inlineFormula|var|samp|kbd|sub'
       + '|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)'
       + '\\b)\\w+(?!:|[^\\w\\s@]*@)\\b')
     .getRegex(),
@@ -241,6 +244,7 @@ const escape = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/;
 const inlineCode = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/;
 const br = /^( {2,}|\\)\n(?!\s*$)/;
 const inlineText = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/;
+const inlineText2 = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[$`*_]|\b_|$)|[^ ](?= {2,}\n)))/;
 
 // list of unicode punctuation marks, plus any missing characters from CommonMark spec
 const _punctuation = '\\p{P}\\p{S}';
@@ -321,6 +325,11 @@ const reflinkSearch = edit('reflink|nolink(?!\\()', 'g')
   .replace('nolink', nolink)
   .getRegex();
 
+const inlineFormula = /^\$([^$]+)\$/;
+// match <Vocabulary>...</Vocabulary> or <Vocabulary>...<Vocabulary>
+const vocabulary = /^\|([^|]+)\|/;
+const spoiler = /^\|\|([^|]+)\|\|/;
+
 /**
  * Normal Inline Grammar
  */
@@ -331,6 +340,9 @@ const inlineNormal = {
   autolink,
   blockSkip,
   br,
+  spoiler,
+  vocabulary,
+  formula: inlineFormula,
   code: inlineCode,
   del: noopTest,
   emStrongLDelim,
@@ -343,7 +355,7 @@ const inlineNormal = {
   reflink,
   reflinkSearch,
   tag,
-  text: inlineText,
+  text: inlineText2,
   url: noopTest,
 };
 
