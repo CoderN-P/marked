@@ -174,6 +174,7 @@ export namespace Tokens {
     type: 'spoiler';
     raw: string;
     text: string;
+    tokens: Token[];
   }
   
   export interface Embed {

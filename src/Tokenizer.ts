@@ -113,6 +113,18 @@ export class _Tokenizer {
     }
   }
 
+  question(src: string): Tokens.Question | undefined {
+    const cap = this.rules.block.question.exec(src);
+    if (cap) {
+      // const text = cap[0].replace(this.rules.other.codeRemoveIndent, '');
+      return {
+        type: 'question',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+
   fences(src: string): Tokens.Code | undefined {
     const cap = this.rules.block.fences.exec(src);
     if (cap) {
@@ -821,6 +833,7 @@ export class _Tokenizer {
         type: 'spoiler',
         raw: cap[0],
         text: cap[1],
+        tokens: this.lexer.inline(cap[1]),
       };
     }
   }

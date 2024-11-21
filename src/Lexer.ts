@@ -169,6 +169,20 @@ export class _Lexer {
         continue;
       }
 
+      if (token = this.tokenizer.question(src)) {
+        src = src.substring(token.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        // An indented code block cannot interrupt a paragraph.
+        if (lastToken && (lastToken.type === 'paragraph' || lastToken.type === 'text')) {
+          lastToken.raw += '\n' + token.raw;
+          lastToken.text += '\n' + token.text;
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else {
+          tokens.push(token);
+        }
+        continue;
+      }
+
       // fences
       if (token = this.tokenizer.fences(src)) {
         src = src.substring(token.raw.length);
