@@ -186,7 +186,9 @@ export namespace Tokens {
   export interface Question {
     type: 'question';
     raw: string;
-    text: string;
+    options: string[];
+    question: string;
+    correct: string;
   }
 
   export interface Link {

@@ -145,7 +145,8 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
   .getRegex();
 
 const blockFormula = /^\$\$([^$]+)\$\$/;
-const question = /^\?\?([^?]+)\?\?/;
+const question = /^::\?\s*([^\n]*)\n([A-Za-z])\n([\s\S]*?)::\?/;
+const embed = /^\{\{([^}]+)}}/;
 
 /**
  * Normal Block Grammar
@@ -156,6 +157,7 @@ const blockNormal = {
   code: blockCode,
   formula: blockFormula,
   def,
+  embed,
   question,
   fences,
   heading,

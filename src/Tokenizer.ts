@@ -120,6 +120,20 @@ export class _Tokenizer {
       return {
         type: 'question',
         raw: cap[0],
+        options: cap[1].split('|'),
+        correct: cap[2],
+        question: cap[3],
+      };
+    }
+  }
+
+  embed(src: string): Tokens.Embed | undefined {
+    const cap = this.rules.block.embed.exec(src);
+    if (cap) {
+      // const text = cap[0].replace(this.rules.other.codeRemoveIndent, '');
+      return {
+        type: 'embed',
+        raw: cap[0],
         text: cap[1],
       };
     }
