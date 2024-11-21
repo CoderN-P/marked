@@ -1,7 +1,7 @@
 {
-  "name": "marked",
+  "name": "marked-customized",
   "description": "A markdown parser built for speed",
-  "author": "Christopher Jeffrey",
+  "author": "Neel Parpia",
   "version": "15.0.0",
   "type": "module",
   "main": "./lib/marked.cjs",
@@ -33,10 +33,7 @@
     "./marked.min.js": "./marked.min.js",
     "./package.json": "./package.json"
   },
-  "publishConfig": {
-    "provenance": true
-  },
-  "repository": "git://github.com/markedjs/marked.git",
+  "repository": "git://github.com/CoderN-P/marked.git",
   "homepage": "https://marked.js.org",
   "bugs": {
     "url": "http://github.com/markedjs/marked/issues"
