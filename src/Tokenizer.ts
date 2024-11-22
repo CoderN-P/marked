@@ -103,12 +103,18 @@ export class _Tokenizer {
 
   blockFormula(src: string): Tokens.BlockFormula | undefined {
     const cap = this.rules.block.formula.exec(src);
+
     if (cap) {
-      // const text = cap[0].replace(this.rules.other.codeRemoveIndent, '');
+      let text = cap[1].replace(this.rules.other.newLineCharGlobal, ' ');
+      const hasNonSpaceChars = this.rules.other.nonSpaceChar.test(text);
+      const hasSpaceCharsOnBothEnds = this.rules.other.startingSpaceChar.test(text) && this.rules.other.endingSpaceChar.test(text);
+      if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
+        text = text.substring(1, text.length - 1);
+      }
       return {
         type: 'blockFormula',
         raw: cap[0],
-        text: cap[1],
+        text,
       };
     }
   }
@@ -821,7 +827,6 @@ export class _Tokenizer {
       if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
         text = text.substring(1, text.length - 1);
       }
-      console.log(cap);
       return {
         type: 'inlineFormula',
         raw: cap[0],

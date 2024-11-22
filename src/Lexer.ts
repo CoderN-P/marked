@@ -166,21 +166,6 @@ export class _Lexer {
         tokens.push(token);
         continue;
       }
-
-
-      if (token = this.tokenizer.blockFormula(src)) {
-        src = src.substring(token.raw.length);
-        lastToken = tokens[tokens.length - 1];
-        // An indented code block cannot interrupt a paragraph.
-        if (lastToken && (lastToken.type === 'paragraph' || lastToken.type === 'text')) {
-          lastToken.raw += '\n' + token.raw;
-          lastToken.text += '\n' + token.text;
-          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
-        } else {
-          tokens.push(token);
-        }
-        continue;
-      }
       
       // fences
       if (token = this.tokenizer.fences(src)) {
@@ -422,18 +407,19 @@ export class _Lexer {
         tokens.push(token);
         continue;
       }
+      
+      if (token = this.tokenizer.blockFormula(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
 
       if (token = this.tokenizer.inlineFormula(src)) {
         src = src.substring(token.raw.length);
         tokens.push(token);
         continue;
       }
-
-      if (token = this.tokenizer.blockFormula(src)) {
-        src = src.substring(token.raw.length);
-        tokens.push(token);
-        continue;
-      }
+      
       
       if (token = this.tokenizer.spoiler(src)) {
         src = src.substring(token.raw.length);
