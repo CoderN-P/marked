@@ -821,6 +821,7 @@ export class _Tokenizer {
       if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
         text = text.substring(1, text.length - 1);
       }
+      console.log(cap);
       return {
         type: 'inlineFormula',
         raw: cap[0],

@@ -329,7 +329,7 @@ const reflinkSearch = edit('reflink|nolink(?!\\()', 'g')
   .replace('nolink', nolink)
   .getRegex();
 
-const inlineFormula = /^\$([^$]+)\$/;
+const inlineFormula = /^(\$([^$]+)\$)/;
 // match <Vocabulary>...</Vocabulary> or <Vocabulary>...<Vocabulary>
 const vocabulary = /^\|([^|]+)\|/;
 const spoiler = /^\|\|([^|]+)\|\|/;

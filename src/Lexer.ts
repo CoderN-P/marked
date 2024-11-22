@@ -428,6 +428,12 @@ export class _Lexer {
         tokens.push(token);
         continue;
       }
+
+      if (token = this.tokenizer.blockFormula(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
       
       if (token = this.tokenizer.spoiler(src)) {
         src = src.substring(token.raw.length);
