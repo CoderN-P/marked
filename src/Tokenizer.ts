@@ -149,12 +149,22 @@ export class _Tokenizer {
     const cap = this.rules.block.fences.exec(src);
     if (cap) {
       const raw = cap[0];
-      const text = indentCodeCompensation(raw, cap[3] || '', this.rules);
+      let text = indentCodeCompensation(raw, cap[3] || '', this.rules);
+
+      const getOutput = /^---\n([\s\S]+)/gm;
+      const output = getOutput.exec(text)?.[1] ?? '';
+      
+      if (output){
+        text = text.replace(getOutput, '');
+        // remove trailing newline
+        text = text.substring(0, text.length - 1);
+      }
 
       return {
         type: 'code',
         raw,
         lang: cap[2] ? cap[2].trim().replace(this.rules.inline.anyPunctuation, '$1') : cap[2],
+        output,
         text,
       };
     }

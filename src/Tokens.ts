@@ -40,6 +40,7 @@ export namespace Tokens {
     codeBlockStyle?: 'indented' | undefined;
     lang?: string | undefined;
     text: string;
+    output?: string | undefined;
     escaped?: boolean;
   }
   
