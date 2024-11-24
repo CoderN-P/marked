@@ -160,12 +160,6 @@ export class _Lexer {
         tokens.push(token);
         continue;
       }
-
-      if (token = this.tokenizer.embed(src)) {
-        src = src.substring(token.raw.length);
-        tokens.push(token);
-        continue;
-      }
       
       // fences
       if (token = this.tokenizer.fences(src)) {
@@ -395,6 +389,12 @@ export class _Lexer {
 
       // em & strong
       if (token = this.tokenizer.emStrong(src, maskedSrc, prevChar)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+// embed
+      if (token = this.tokenizer.embed(src)) {
         src = src.substring(token.raw.length);
         tokens.push(token);
         continue;

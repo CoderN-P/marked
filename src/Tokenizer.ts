@@ -946,7 +946,7 @@ export class _Tokenizer {
   }
 
   inlineText(src: string): Tokens.Text | undefined {
-    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[$`*_]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
+    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[{$`*_]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
     if (cap) {
       const escaped = this.lexer.state.inRawBlock;
       return {
