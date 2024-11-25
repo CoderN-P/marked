@@ -144,9 +144,11 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
   .replace('paragraph', paragraph)
   .getRegex();
 
-const blockFormula = /^\$\$([^$]+)\$\$/;
+const blockFormula = /\$\$(.*?)\$\$/;
 const question = /^::\?\s*([^\n]*)\n([A-Za-z])\n([\s\S]*?)::\?/;
-const embed = /^\{\{([^}]+)}}/;
+const embed = /^(?<!\\)\{\{(.*?)(?<!\\)\}\}/;
+// delimit chemistry formulas with \[ and \]
+const chem = /^\[\[(.*?)\]\]/;
 
 /**
  * Normal Block Grammar
@@ -349,6 +351,7 @@ const inlineNormal = {
   formula: inlineFormula,
   code: inlineCode,
   del: noopTest,
+  chem,
   emStrongLDelim,
   emStrongRDelimAst,
   emStrongRDelimUnd,

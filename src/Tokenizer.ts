@@ -145,6 +145,18 @@ export class _Tokenizer {
     }
   }
 
+  chem(src: string): Tokens.Chem | undefined {
+    const cap = this.rules.inline.chem.exec(src);
+    if (cap) {
+      // const text = cap[0].replace(this.rules.other.codeRemoveIndent, '');
+      return {
+        type: 'chem',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+
   fences(src: string): Tokens.Code | undefined {
     const cap = this.rules.block.fences.exec(src);
     if (cap) {
@@ -956,7 +968,7 @@ export class _Tokenizer {
   }
 
   inlineText(src: string): Tokens.Text | undefined {
-    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[{$`*_]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
+    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[{$`*_\[]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
     if (cap) {
       const escaped = this.lexer.state.inRawBlock;
       return {

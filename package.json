@@ -2,7 +2,7 @@
   "name": "marked-customized",
   "description": "A markdown parser built for speed",
   "author": "Neel Parpia",
-  "version": "15.0.7",
+  "version": "15.0.8",
   "type": "module",
   "main": "./lib/marked.cjs",
   "module": "./lib/marked.esm.js",

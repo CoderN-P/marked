@@ -44,6 +44,12 @@ export namespace Tokens {
     escaped?: boolean;
   }
   
+  export interface Chem {
+    type: 'chem';
+    raw: string;
+    text: string;
+  }
+  
   export interface BlockFormula {
     type: 'blockFormula';
     raw: string;

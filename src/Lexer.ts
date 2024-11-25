@@ -400,6 +400,13 @@ export class _Lexer {
         continue;
       }
       
+      // chem
+      
+        if (token = this.tokenizer.chem(src)) {
+            src = src.substring(token.raw.length);
+            tokens.push(token);
+            continue;
+        }
       
       // code
       if (token = this.tokenizer.codespan(src)) {
