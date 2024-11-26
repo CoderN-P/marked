@@ -147,6 +147,7 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
 const blockFormula = /\$\$(.*?)\$\$/;
 const question = /^::\?\s*([^\n]*)\n([A-Za-z])\n([\s\S]*?)::\?/;
 const embed = /^(?<!\\)\{\{(.*?)(?<!\\)\}\}/;
+const emoji = /^:([^\s:]+):/;
 // delimit chemistry formulas with \[ and \]
 const chem = /^\[\[(.*?)\]\]/;
 
@@ -160,6 +161,7 @@ const blockNormal = {
   formula: blockFormula,
   def,
   embed,
+  emoji,
   question,
   fences,
   heading,

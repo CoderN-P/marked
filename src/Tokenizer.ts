@@ -880,6 +880,17 @@ export class _Tokenizer {
     }
   }
 
+  emoji(src: string): Tokens.Emoji | undefined {
+    const cap = this.rules.block.emoji.exec(src);
+    if (cap) {
+      return {
+        type: 'emoji',
+        raw: cap[0],
+        text: cap[1],
+      };
+    }
+  }
+
   br(src: string): Tokens.Br | undefined {
     const cap = this.rules.inline.br.exec(src);
     if (cap) {
@@ -968,7 +979,7 @@ export class _Tokenizer {
   }
 
   inlineText(src: string): Tokens.Text | undefined {
-    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[{$`*_\[]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
+    const cap = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\|<!\[{$`*_:\[]|\b_|$)|[^ ](?= {2,}\n)))/.exec(src);
     if (cap) {
       const escaped = this.lexer.state.inRawBlock;
       return {

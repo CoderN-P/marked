@@ -50,6 +50,12 @@ export namespace Tokens {
     text: string;
   }
   
+  export interface Emoji {
+    type: 'emoji';
+    raw: string;
+    text: string;
+  }
+  
   export interface BlockFormula {
     type: 'blockFormula';
     raw: string;
