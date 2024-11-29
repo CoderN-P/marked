@@ -144,7 +144,7 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
   .replace('paragraph', paragraph)
   .getRegex();
 
-const blockFormula = /^\$\$(.*?)\$\$/;
+const blockFormula = /\$\$([^$]*?)\$\$|\$\$\s*([\s\S]*?)\s*\$\$/;
 const question = /^::\?\s*([^\n]*)\n([A-Za-z])\n([\s\S]*?)::\?/;
 const embed = /^(?<!\\)\{\{(.*?)(?<!\\)\}\}/;
 const emoji = /^:([^\s:]+):/;

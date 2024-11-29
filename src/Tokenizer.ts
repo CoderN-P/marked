@@ -841,7 +841,21 @@ export class _Tokenizer {
 
   inlineFormula(src: string): Tokens.InlineFormula | undefined {
     const cap = this.rules.inline.formula.exec(src);
-
+    const cap2 = /^\\\((.*?)\\\)/.exec(src);
+    if (cap2) {
+      let text = cap2[1].replace(this.rules.other.newLineCharGlobal, ' ');
+      const hasNonSpaceChars = this.rules.other.nonSpaceChar.test(text);
+      const hasSpaceCharsOnBothEnds = this.rules.other.startingSpaceChar.test(text) && this.rules.other.endingSpaceChar.test(text);
+      if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
+        text = text.substring(1, text.length - 1);
+      }
+      return {
+        type: 'inlineFormula',
+        raw: cap2[0],
+        text,
+      };
+    }
+    
     if (cap) {
       let text = cap[1].replace(this.rules.other.newLineCharGlobal, ' ');
       const hasNonSpaceChars = this.rules.other.nonSpaceChar.test(text);

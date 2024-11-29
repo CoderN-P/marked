@@ -352,6 +352,18 @@ export class _Lexer {
         continue;
       }
 
+      if (token = this.tokenizer.blockFormula(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+
+      if (token = this.tokenizer.inlineFormula(src)) {
+        src = src.substring(token.raw.length);
+        tokens.push(token);
+        continue;
+      }
+
       // escape
       if (token = this.tokenizer.escape(src)) {
         src = src.substring(token.raw.length);
@@ -421,17 +433,6 @@ export class _Lexer {
         continue;
       }
       
-      if (token = this.tokenizer.blockFormula(src)) {
-        src = src.substring(token.raw.length);
-        tokens.push(token);
-        continue;
-      }
-
-      if (token = this.tokenizer.inlineFormula(src)) {
-        src = src.substring(token.raw.length);
-        tokens.push(token);
-        continue;
-      }
       
       
       if (token = this.tokenizer.spoiler(src)) {
