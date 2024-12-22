@@ -145,7 +145,7 @@ const blockquote = edit(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/)
   .getRegex();
 
 const blockFormula = /^\$\$([^$]*?)\$\$|^\$\$\s*([\s\S]*?)\s*\$\$/;
-const question = /^::\?\s*([^\n]*)\n([A-Za-z])\n([\s\S]*?)::\?/;
+const question = /^::\?\s*([^\n]*)\n([^\n]*)\n([\s\S]*?)::\?/;
 const embed = /^(?<!\\)\{\{(.*?)(?<!\\)\}\}/;
 const emoji = /^:([^\s:]+):/;
 // delimit chemistry formulas with \[ and \]
